@@ -33,8 +33,10 @@ const generateAuthToken = (userId, userType) => {
 };
 
 export const loginuser = async (req, res) => {
+
   try {
     const { username, password } = req.body;
+    console.log(req);
     const find = await UserSingle.findOne({ username });
     console.log(find);
     if (!find) {
@@ -220,7 +222,7 @@ export const upload1 = async (req, res) => {
     POST.remedyName = req.body.remedyName;
     POST.Uses = req.body.Uses;
     POST.facilitator = userId;
-    POST.status = 'pending';
+    POST.status = "pending";
     POST.image = "http://localhost:8000/Image/" + req.file.filename;
 
     let SAVEPOST = await POST.save();
@@ -295,30 +297,30 @@ export const Facilatorpost = async (req, res) => {
 };
 //
 
-export const fetcDocter = async (req,res) =>{
+export const fetcDocter = async (req, res) => {
   try {
     const userId = req.userId;
     console.log("Dekhte hai Doctor saheb koi", userId);
     const finddocter = await Doctor.findById(userId);
 
-    console.log(Docterdata)
-    console.log("The data from the data ",finddocter);
+    console.log(Docterdata);
+    console.log("The data from the data ", finddocter);
     if (!finddocter) {
       return res
         .status(404)
         .json({ message: "Docter not found", success: false });
     }
-    console.log("Docter saheb",finddocter);
+    console.log("Docter saheb", finddocter);
     return res.status(200).json({
-      message:"The docter is find",
-      success:true,
-      finddocter
-    })
+      message: "The docter is find",
+      success: true,
+      finddocter,
+    });
   } catch (error) {
     return res.status(500).json({
-      message:"Internal server error",
-      success:false
-    })
+      message: "Internal server error",
+      success: false,
+    });
   }
 };
 export const like = async (req, res) => {
@@ -338,7 +340,9 @@ export const like = async (req, res) => {
 // Data OF POST BAtabase
 export const getimage = async (req, res) => {
   try {
-    const posts = await Post.find({status : "pending"}).populate("facilitator");
+    const posts = await Post.find({ status: "pending" }).populate(
+      "facilitator"
+    );
     // console.log(posts);
     res.json(posts); // Send the posts as JSON response
   } catch (error) {
@@ -346,49 +350,49 @@ export const getimage = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-// 
-export const getactivePosts = async (req,res) => {
+//
+export const getactivePosts = async (req, res) => {
   try {
-    const p = await Post.find({status : "active"}).populate("facilitator")
-    console.log(p)
+    const p = await Post.find({ status: "active" }).populate("facilitator");
+    console.log(p);
     res.json({
-      message:"Data is retrive",
-      success:true,
-      p
-    })
+      message: "Data is retrive",
+      success: true,
+      p,
+    });
   } catch (error) {
     console.error("Error submitting comment:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 export const grant = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.postId,
-      { status: 'active' },
+      { status: "active" },
       { new: true }
     );
     res.json(post);
   } catch (error) {
-    console.error('Error granting post:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error granting post:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 export const notgrant = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.postId,
-      { status: 'deactive' },
+      { status: "deactive" },
       { new: true }
     );
     res.json(post);
   } catch (error) {
-    console.error('Error not granting post:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error not granting post:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 export const Comment = async (req, res) => {
   try {

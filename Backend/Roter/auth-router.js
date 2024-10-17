@@ -40,4 +40,6 @@ router.post('/posts/:postId/comment', verifyToken,Comment)
 
 router.get("/fetcDocter",verifyToken,fetcDocter)
 
+
+
 // router.get("/time",time)
